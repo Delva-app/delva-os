@@ -1,0 +1,13 @@
+{
+  "name": "delva-os",
+  "owner": {
+    "name": "Aidan Branley"
+  },
+  "plugins": [
+    {
+      "name": "delva-os",
+      "source": "./",
+      "description": "Build a personal AI operating system in one sitting: a CLAUDE.md router plus a real knowledge directory, a voice file built from your own words, and an audit skill to keep it from going stale."
+    }
+  ]
+}

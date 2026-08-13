@@ -1,0 +1,15 @@
+{
+  "name": "delva-os",
+  "description": "Build a personal AI operating system in one sitting: a CLAUDE.md router plus a real knowledge directory, a voice file built from your own words, and an audit skill to keep it from going stale.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Aidan Branley"
+  },
+  "keywords": [
+    "claude-md",
+    "onboarding",
+    "second-brain",
+    "voice",
+    "audit"
+  ]
+}
