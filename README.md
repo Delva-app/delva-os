@@ -6,23 +6,17 @@ and a voice file so anything written as you actually sounds like you.
 
 ## Install
 
-**From a local folder** (if someone sent you this as a zip — unzip it
-first, then point Claude Code at the folder):
+Two commands inside Claude Code:
 
 ```
-/plugin marketplace add /path/to/delva-os-plugin
-/plugin install delva-os@delva-os
-```
-
-**From GitHub**, once it's pushed to a repo:
-
-```
-/plugin marketplace add <owner>/<repo>
+/plugin marketplace add Delva-app/delva-os
 /plugin install delva-os@delva-os
 ```
 
 Restart Claude Code, or run `/plugin` to confirm it's enabled. The
 skills work in every project once installed.
+
+To pick up later updates, run `/plugin marketplace update delva-os`.
 
 If you'd rather not use the plugin system at all, copy the three folders
 in `skills/` into `.claude/skills/` in your project. Same result, but
