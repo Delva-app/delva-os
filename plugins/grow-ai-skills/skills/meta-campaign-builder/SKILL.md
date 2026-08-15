@@ -425,9 +425,12 @@ this is not delivery.
 Report as a table: campaign, ad set, ad count, creative count, budget,
 placements, status. Then state the honest gaps. At minimum:
 
-- **Opt-outs cannot be read back.** `degrees_of_freedom_spec` is not in
-  `ads_get_creatives`'s readable fields. Acceptance without error is evidence,
-  not confirmation. Tell the user to eyeball one ad in Ads Manager.
+- **Opt-outs cannot be read back through the API.**
+  `degrees_of_freedom_spec` is absent from `ads_get_creatives`'s readable
+  fields, so there is no programmatic confirmation. The approach itself is
+  verified: a real build using the 11 feature names above was confirmed off
+  in Ads Manager. So acceptance without error is a reliable signal, and a
+  spot-check of one ad is a sanity check rather than a real doubt.
 - Whether Instagram is actually wired.
 - That targeting is broad unless real interest IDs were supplied.
 - Temporary hosting should already be **deleted or made private by now**.
