@@ -1,28 +1,57 @@
 # Delva OS
 
-Three skills that build you an AI operating system: a `CLAUDE.md` your
-agent reads first every session, a real knowledge directory behind it,
-and a voice file so anything written as you actually sounds like you.
+A marketplace of skills. The main one builds you an AI operating system:
+a `CLAUDE.md` your agent reads first every session, a real knowledge
+directory behind it, and a voice file so anything written as you
+actually sounds like you. Others do specific jobs.
 
 ## Install
 
-Two commands inside Claude Code:
+Add the marketplace once:
 
 ```
 /plugin marketplace add Delva-app/delva-os
-/plugin install delva-os@delva-os
 ```
 
-Restart Claude Code, or run `/plugin` to confirm it's enabled. The
-skills work in every project once installed.
+Then install whichever plugins you want:
+
+```
+/plugin install delva-os@delva-os                  # the OS builder
+/plugin install meta-campaign-builder@delva-os     # Meta ad campaigns
+```
+
+Restart Claude Code, or run `/plugin` to confirm they're enabled. Skills
+work in every project once installed.
 
 To pick up later updates, run `/plugin marketplace update delva-os`.
 
-If you'd rather not use the plugin system at all, copy the three folders
-in `skills/` into `.claude/skills/` in your project. Same result, but
-you'd have to do it per project.
+If you'd rather not use the plugin system, copy the skill folders under
+`plugins/*/skills/` into `.claude/skills/` in your project. Same result,
+but per project and without updates.
 
-## What's in it
+## Plugins
+
+### `delva-os`
+
+The OS builder: `/build-my-os`, `/build-my-voice`, `/os-audit`. Details
+below.
+
+### `meta-campaign-builder`
+
+Turns a folder of ad creatives into a complete, paused Meta campaign.
+Runs account preflight first so blockers surface before you answer
+anything, asks every setting up front as clickable multiple choice, then
+hosts and uploads the media and builds the campaign, ad set, creatives
+and one ad per creative. Nothing is ever activated.
+
+It bundles the Meta Ads MCP, so installing the plugin wires up the
+connection too. You'll still authorize it in the browser.
+
+It does not write ad copy — you supply primary text and headlines.
+
+Start it with "create me a campaign" and drop your creatives in.
+
+## What's in `delva-os`
 
 ### `/build-my-os`
 

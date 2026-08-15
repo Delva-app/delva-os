@@ -1,0 +1,15 @@
+{
+  "name": "meta-campaign-builder",
+  "description": "Build a complete Meta ad campaign from raw creative files: account preflight, all settings asked up front as clickable multiple choice, media hosted and uploaded, then campaign, ad set, creatives and ads created paused.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Aidan Branley"
+  },
+  "keywords": [
+    "meta-ads",
+    "facebook-ads",
+    "instagram-ads",
+    "campaign",
+    "advertising"
+  ]
+}
