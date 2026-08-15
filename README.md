@@ -17,7 +17,7 @@ Then install whichever plugins you want:
 
 ```
 /plugin install delva-os@delva-os                  # the OS builder
-/plugin install meta-campaign-builder@delva-os     # Meta ad campaigns
+/plugin install grow-ai-skills@delva-os            # Grow AI's delivery skills
 ```
 
 Restart Claude Code, or run `/plugin` to confirm they're enabled. Skills
@@ -36,20 +36,28 @@ but per project and without updates.
 The OS builder: `/build-my-os`, `/build-my-voice`, `/os-audit`. Details
 below.
 
-### `meta-campaign-builder`
+### `grow-ai-skills`
 
-Turns a folder of ad creatives into a complete, paused Meta campaign.
-Runs account preflight first so blockers surface before you answer
-anything, asks every setting up front as clickable multiple choice, then
-hosts and uploads the media and builds the campaign, ad set, creatives
-and one ad per creative. Nothing is ever activated.
+One plugin per client. This is Grow AI's — three delivery skills that
+run the work end to end:
 
-It bundles the Meta Ads MCP, so installing the plugin wires up the
+- **`/proposal-from-transcript`** — a sales call transcript in, a
+  finished branded HTML proposal out, with scope and pricing.
+- **`/build-prototype`** — a call or requirements doc in, a live
+  clickable prototype out: landing page, working sign-in, seeded demo
+  data, deployed through the Lovable MCP, and a URL the client can open.
+- **`/meta-campaign-builder`** — a folder of creatives in, a complete
+  **paused** Meta campaign out. Account preflight first so blockers
+  surface before you answer anything, every setting asked up front as
+  clickable multiple choice, then media uploaded and campaign, ad set,
+  creatives and one ad per creative built. Nothing is ever activated. It
+  does not write ad copy — you supply primary text and headlines.
+
+It bundles the Meta Ads MCP, so installing the plugin wires up that
 connection too. You'll still authorize it in the browser.
 
-It does not write ad copy — you supply primary text and headlines.
-
-Start it with "create me a campaign" and drop your creatives in.
+To add more later, drop a new skill folder into
+`plugins/grow-ai-skills/skills/`. No manifest edit needed.
 
 ## What's in `delva-os`
 

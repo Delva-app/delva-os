@@ -10,9 +10,9 @@
       "description": "Build a personal AI operating system in one sitting: a CLAUDE.md router plus a real knowledge directory, a voice file built from your own words, and an audit skill to keep it from going stale."
     },
     {
-      "name": "meta-campaign-builder",
-      "source": "./plugins/meta-campaign-builder",
-      "description": "Build a complete Meta ad campaign from raw creative files: account preflight, all settings asked up front as clickable multiple choice, media hosted and uploaded, then campaign, ad set, creatives and ads created paused. Bundles the Meta Ads MCP."
+      "name": "grow-ai-skills",
+      "source": "./plugins/grow-ai-skills",
+      "description": "Grow AI's working skills in one plugin: turn a sales call into a branded proposal, turn client requirements into a live clickable prototype, and turn a folder of creatives into a paused Meta ad campaign. Bundles the Meta Ads MCP."
     }
   ]
 }

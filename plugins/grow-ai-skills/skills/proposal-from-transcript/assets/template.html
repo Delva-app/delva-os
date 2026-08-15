@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{PROJECT_NAME}}</title>
+<style>
+  /* Brand palette sampled from the Grow AI Partners logo:
+     electric blue mark, deep navy wordmark, warm grey "PARTNERS". */
+  :root {
+    --ink:      #171d33;   /* navy-black, from the wordmark */
+    --ink-2:    #4a5364;
+    --ink-3:    #7b8592;
+    --rule:     #e2e5ef;
+    --paper:    #ffffff;
+    --wash:     #f5f6fb;
+    --accent:   #1b2ce8;   /* logo electric blue */
+    --accent-2: #4a90de;   /* logo light blue, gradient end */
+    --navy:     #26357b;   /* logo wordmark navy */
+    --accent-w: #eceffe;
+    --gone:     #b6bcc5;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--wash);
+    color: var(--ink);
+    font: 400 16px/1.55 ui-sans-serif, -apple-system, "Segoe UI", Inter, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .sheet {
+    max-width: 1040px;
+    margin: 0 auto;
+    background: var(--paper);
+    padding: 22px 60px 64px;
+    box-shadow: 0 1px 2px rgba(20,24,29,.06), 0 12px 40px rgba(20,24,29,.07);
+  }
+  @media (max-width: 760px) { .sheet { padding: 18px 20px 48px; box-shadow: none; } }
+  /* brand rule across the top of the sheet, mark → light blue */
+  .sheet { border-top: 3px solid var(--accent); background-image: linear-gradient(90deg, var(--accent), var(--accent-2)); background-size: 100% 3px; background-repeat: no-repeat; border-top-color: transparent; }
+
+  /* Logo gets its own row, right-aligned. This only works because the file is
+     cropped to the mark: the row is as tall as the logo and not a pixel more. */
+  .brandbar { display: flex; justify-content: flex-end; margin-bottom: 14px; }
+  .logo { height: 46px; width: auto; display: block; }
+  @media (max-width: 760px) {
+    .brandbar { justify-content: flex-start; margin-bottom: 12px; }
+    .logo { height: 40px; }
+  }
+
+  h1 { font-size: 36px; line-height: 1.12; letter-spacing: -.021em; margin: 0 0 10px; font-weight: 640; }
+  h2 { font-size: 12px; letter-spacing: .11em; text-transform: uppercase; color: var(--ink-3); font-weight: 620; margin: 0 0 16px; }
+  p  { margin: 0; color: var(--ink-2); }
+  .eyebrow { font-size: 12px; letter-spacing: .11em; text-transform: uppercase; color: var(--accent); font-weight: 640; margin: 0 0 14px; }
+  .lede { font-size: 18px; line-height: 1.5; max-width: 74ch; }
+  section { margin-top: 40px; }
+
+  .meta {
+    display: flex; flex-wrap: wrap; gap: 6px 22px;
+    font-size: 14px; color: var(--ink-3);
+    margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--rule);
+  }
+  .meta b { color: var(--ink-2); font-weight: 560; }
+
+  /* ---------- the table ---------- */
+  .wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  th {
+    text-align: left; font-size: 11px; letter-spacing: .09em; text-transform: uppercase;
+    color: var(--ink-3); font-weight: 620; padding: 0 0 10px; border-bottom: 1px solid var(--rule);
+  }
+  th.num, td.num { text-align: right; }
+  th.act, td.act { text-align: right; width: 108px; }
+  td {
+    padding: 15px 0; border-bottom: 1px solid var(--rule); vertical-align: top;
+    transition: opacity .28s ease;
+  }
+  td + td { padding-left: 20px; }
+  /* vertical rules either side of Difficulty, so feature / difficulty / price
+     read as three columns rather than one run of text */
+  th.diff, td.diff, th.num, td.num { border-left: 1px solid var(--rule); padding-left: 22px; }
+  th.diff, td.diff { padding-right: 22px; }
+  th.diff, th.num { padding-bottom: 10px; }
+  tr.total td.num { border-left: 1px solid var(--rule); }
+  .fname { font-weight: 560; color: var(--ink); font-size: 17px; }
+  .fnote { display: block; color: var(--ink-3); font-size: 14px; margin-top: 3px; max-width: 58ch; }
+  .price { font-weight: 560; white-space: nowrap; }
+
+  /* Every pill the same width and centred in its column, so the ratings stack
+     into one clean vertical run instead of a ragged left edge. */
+  th.diff, td.diff { text-align: center; }
+  th.diff, td.diff, th.num, td.num { width: 1%; }
+  .tier {
+    display: inline-block; box-sizing: border-box; width: 96px; text-align: center;
+    font-size: 11px; letter-spacing: .06em; text-transform: uppercase; font-weight: 620;
+    color: var(--ink-2); background: var(--wash); border: 1px solid var(--rule);
+    border-radius: 999px; padding: 4px 0; white-space: nowrap; cursor: help;
+  }
+
+  .cut {
+    appearance: none; -webkit-appearance: none;
+    border: 1px solid var(--rule); background: var(--paper); color: var(--ink-3);
+    font: inherit; font-size: 13px; line-height: 1; padding: 7px 11px; border-radius: 7px;
+    cursor: pointer; white-space: nowrap;
+    transition: color .15s, border-color .15s, background .15s;
+  }
+  .cut:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-w); }
+  .cut:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  tr.removed td { opacity: .45; }
+  tr.removed .fname { text-decoration: line-through; text-decoration-color: var(--gone); }
+  tr.removed .price { text-decoration: line-through; }
+  tr.removed .cut { color: var(--accent); border-color: var(--accent); background: var(--accent-w); }
+  tr.locked .cut { display: none; }
+
+  tr.base td { border-bottom: 2px solid var(--navy); }
+  tr.total td { padding-top: 20px; border-bottom: 0; }
+  tr.total .label { font-size: 18px; font-weight: 600; color: var(--ink); }
+  tr.total .amt { font-size: 36px; font-weight: 640; letter-spacing: -.02em; color: var(--navy); }
+
+  .was { min-height: 20px; margin-top: 8px; text-align: right; font-size: 14px; color: var(--ink-3); opacity: 0; transition: opacity .3s ease; }
+  .was.show { opacity: 1; }
+  .was s { color: var(--gone); }
+  .terms { margin-top: 14px; font-size: 14px; color: var(--ink-3); }
+
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  @media (max-width: 760px) { .cols { grid-template-columns: 1fr; gap: 32px; } }
+  ul.plain { list-style: none; margin: 0; padding: 0; }
+  ul.plain li { padding: 9px 0 9px 24px; border-top: 1px solid var(--rule); color: var(--ink-2); position: relative; font-size: 15px; }
+  ul.plain li::before { content: ""; position: absolute; left: 4px; top: 18px; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+
+  footer { margin-top: 44px; padding-top: 20px; border-top: 1px solid var(--rule); font-size: 14px; color: var(--ink-3); }
+
+  @media print {
+    body { background: #fff; }
+    .sheet { box-shadow: none; padding: 0; max-width: none; }
+    .cut, th.act, td.act { display: none; }
+    .sheet { border-top: 0; background-image: none; }
+    .logo { height: 44px; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- Logo, top right on its own row. src is the base64 data URI from
+       assets/logo.b64.txt so the page still renders emailed or offline. -->
+  <div class="brandbar">
+    <img class="logo" src="{{LOGO_DATA_URI}}" alt="Grow AI Partners">
+  </div>
+
+  <p class="eyebrow">Proposal</p>
+  <h1>{{PROJECT_NAME}}</h1>
+  <p class="lede">{{ONE_LINE_PITCH}}</p>
+  <div class="meta">
+    <span><b>For</b> {{CLIENT_NAME}}</span>
+    <span><b>From</b> {{PREPARED_BY}}</span>
+    <span><b>Date</b> {{DATE}}</span>
+  </div>
+
+  <section>
+    <h2>Scope &amp; price</h2>
+    <div class="wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th class="diff">Difficulty</th>
+            <th class="num">Price</th>
+            <th class="act"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- REPEAT per feature (3–5). data-value = tier value in dollars.
+               Add class="locked" to a row that must not be removable. -->
+          <tr class="feat" data-value="{{FEATURE_VALUE}}" data-name="{{FEATURE_NAME}}">
+            <td>
+              <span class="fname">{{FEATURE_NAME}}</span>
+              <span class="fnote">{{FEATURE_SCOPE_ONE_LINE}}</span>
+            </td>
+            <td class="diff"><span class="tier" title="{{TIER_WHY}}">{{TIER_LABEL}}</span></td>
+            <td class="num price">{{FEATURE_VALUE_FORMATTED}}</td>
+            <td class="act"><button class="cut" type="button">Remove</button></td>
+          </tr>
+          <!-- /REPEAT -->
+          <tr class="base">
+            <td>
+              <span class="fname">Build &amp; delivery</span>
+              <span class="fnote">Architecture, accounts, hosting, QA, handoff, two weeks support.</span>
+            </td>
+            <td class="diff"></td>
+            <td class="num price" data-base>{{BASE_FEE}}</td>
+            <td class="act"></td>
+          </tr>
+          <tr class="total">
+            <td class="label">Total, fixed price</td>
+            <td class="diff"></td>
+            <td class="num amt" id="total">{{TOTAL}}</td>
+            <td class="act"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="was" id="was"></div>
+    <p class="terms">50% to start, 50% on delivery. {{TOTAL_WEEKS}} to delivery.</p>
+  </section>
+
+  <section class="cols">
+    <div>
+      <h2>Not included</h2>
+      <ul class="plain">
+        <!-- REPEAT per deferred item -->
+        <li>{{PHASE_2_ITEM}}</li>
+        <!-- /REPEAT -->
+      </ul>
+    </div>
+    <div>
+      <h2>Next step</h2>
+      <p>{{NEXT_STEP}}</p>
+    </div>
+  </section>
+
+  <footer>{{PREPARED_BY}} · {{CONTACT}}</footer>
+</div>
+
+<script>
+(function () {
+  var fmt = function (n) { return "$" + n.toLocaleString("en-US"); };
+  var totalEl = document.getElementById("total");
+  var wasEl   = document.getElementById("was");
+  var rows    = Array.prototype.slice.call(document.querySelectorAll("tr.feat[data-value]"));
+
+  var baseEl = document.querySelector("[data-base]");
+  var base = baseEl ? (parseInt(baseEl.textContent.replace(/[^0-9]/g, ""), 10) || 0) : 0;
+  var full = rows.reduce(function (s, r) { return s + (parseInt(r.dataset.value, 10) || 0); }, base);
+
+  var removed = null;   // only ever one at a time
+  var anim = null, settle = null;
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function countTo(target) {
+    var start = parseInt(totalEl.textContent.replace(/[^0-9]/g, ""), 10);
+    if (isNaN(start) || start === target || reduce || !window.requestAnimationFrame) {
+      totalEl.textContent = fmt(target);
+      return;
+    }
+    if (anim) cancelAnimationFrame(anim);
+    if (settle) clearTimeout(settle);
+    var t0 = null, dur = 480;
+    // Backstop: the total is the one number that must never be left stale, so it
+    // is written correctly on a plain timer regardless of the frame loop.
+    settle = setTimeout(function () { totalEl.textContent = fmt(target); }, dur + 60);
+    (function step(ts) {
+      if (t0 === null) t0 = ts;
+      var p = Math.min((ts - t0) / dur, 1);
+      var e = 1 - Math.pow(1 - p, 3);
+      totalEl.textContent = fmt(Math.round((start + (target - start) * e) / 50) * 50);
+      if (p < 1) anim = requestAnimationFrame(step);
+      else totalEl.textContent = fmt(target);
+    })(performance.now());
+  }
+
+  function render() {
+    rows.forEach(function (r) {
+      var off = (r === removed);
+      r.classList.toggle("removed", off);
+      var btn = r.querySelector(".cut");
+      if (btn) {
+        btn.textContent = off ? "Add back" : "Remove";
+        btn.setAttribute("aria-pressed", off ? "true" : "false");
+      }
+    });
+
+    var cut = removed ? (parseInt(removed.dataset.value, 10) || 0) : 0;
+    countTo(full - cut);
+
+    if (removed) {
+      wasEl.innerHTML = "Was <s>" + fmt(full) + "</s>, " + fmt(cut) + " off.";
+      wasEl.classList.add("show");
+    } else {
+      wasEl.classList.remove("show");
+    }
+  }
+
+  rows.forEach(function (r) {
+    var btn = r.querySelector(".cut");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      removed = (removed === r) ? null : r;
+      render();
+    });
+  });
+
+  totalEl.textContent = fmt(full);
+})();
+</script>
+</body>
+</html>
