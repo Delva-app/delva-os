@@ -2,7 +2,9 @@
 name: build-my-os
 description: >-
   Set up someone's AI from scratch in one sitting: hand them the LLM Wiki
-  pattern to instantiate their directory and CLAUDE.md schema, interview
+  pattern to instantiate their directory and CLAUDE.md schema, open the
+  export pages for whichever AI tools they use so their ChatGPT and
+  Claude chat history is processing in the background, interview
   them one question at a time about their business and how they work and
   file those answers as wiki pages, hand off to build-my-voice for a
   voice file from their meeting transcripts and AI chat history, wire up
@@ -40,12 +42,12 @@ questions, get a file" prompt, and you must deliver all three:
    line, so they finish the session understanding their own setup, not
    just holding a file they can't maintain.
 3. **It gives them a voice, not just a schema.** A CLAUDE.md that knows
-   the business but not how they write or talk is half done. Step 3
+   the business but not how they write or talk is half done. Step 4
    hands off to `build-my-voice`, which builds a voice file from
    what they've already said — meeting transcripts and their own AI
    chat history.
 4. **It leaves them able to check their own work.** A setup that's never
-   audited goes stale silently. Step 4 installs `os-audit` so
+   audited goes stale silently. Step 5 installs `os-audit` so
    they (or their agent) can check the setup for drift later.
 
 ## The one rule that decides whether this worked
@@ -90,7 +92,7 @@ pricing questions get answered from the wiki.
   genuinely have to come from them.
 - **One question at a time.** Ask a seed question, read the answer, ask a
   sharp follow-up if the answer is thin, then move on. Never dump the
-  whole list. A wall of ten questions makes people quit.
+  whole list. A wall of nine questions makes people quit.
 - **Nothing here is a gate.** Connected tools, voice uploads, an
   available os-audit: all of them are nice to have, none of them stop
   the build. If something is missing, note it as an open item and keep
@@ -124,11 +126,11 @@ layers together, in collaboration with them, adapted to their domain.
   a handful of ongoing threads.
 - **The skills folder** — `.claude/skills/` inside the project root.
   Create it in this step, even though nothing lives in it yet. This is
-  where every project skill goes (`os-audit` in step 4, their voice
+  where every project skill goes (`os-audit` in step 5, their voice
   file's companion skill if `build-my-voice` produces one, anything they
   add later), and a skill only loads if it sits at
   `.claude/skills/<skill-name>/SKILL.md` — one folder per skill, each
-  with its own SKILL.md. Creating it up front means step 4 has somewhere
+  with its own SKILL.md. Creating it up front means step 5 has somewhere
   to put things and they have an obvious place to drop skills people
   send them. Mention it when you walk them through the layout: this is
   the folder that makes a skill installable by dragging it in.
@@ -146,9 +148,86 @@ Create the folders and navigation files with real starting content, not
 stubs. `index.md` and `log.md` should reflect this setup session as
 their first entries.
 
-### 2. Interview (one question at a time, adaptive)
+### 2. Kick off their AI chat exports
 
-Ask these ten seed questions in order, one at a time. Each question has a
+Do this **before the interview**, not after. Both exports are processed
+on the provider's side and arrive by email — Claude's usually within
+minutes, ChatGPT's anywhere from minutes to a few days — so starting
+them now means the file is often in hand by the time step 4 needs it.
+Their chat history is the single best voice source there is: thousands
+of messages they typed themselves, unedited.
+
+**Ask which of the two they use, and say what it's for.** This is a
+checklist question, not a preference question. It is not "which do you
+use most" or "which do you prefer" — it's "do you use both of these,
+one, or neither." Asked the preference way, people pick whichever one
+they happen to be sitting in and you lose the account with four years
+of their writing in it. Say up front that it's for pulling their
+context, so they understand there's no wrong answer and no reason to
+leave one out:
+
+> This is going to pull your past chat history so it gets your context.
+> Which of these do you use?
+> **A.** ChatGPT  **B.** Claude  **C.** Both  **D.** Neither
+
+Those two lines and those four options, as written. Don't add
+qualifiers, don't expand the pitch. Use `AskUserQuestion` if it's
+available (multiSelect on, one option each for ChatGPT and Claude) so
+they can tick both rather than typing a letter.
+
+**Then open the export page for each one they named.** Don't describe
+where the button is — put them on the exact screen:
+
+| Tool | Open this | Then |
+|---|---|---|
+| ChatGPT | `https://chatgpt.com/#settings/DataControls` | Under *Export data* → **Export** → **Confirm export** |
+| Claude | `https://claude.ai/settings/data-privacy-controls` | **Export data** |
+
+**If the page offers any choice about what to include, take the option
+that gets everything.** Where there's a scope selector, pick the custom
+or "select data" path and tick every box rather than accepting a
+narrower default — a partial export defeats the point, and the whole
+history is what makes the voice file and the context worth having. Tell
+them this out loud when you send them to the page, in one line: pick
+everything, tick every box. (ChatGPT's export is currently
+all-or-nothing with no selector, so there's nothing to choose there;
+say nothing if no selector appears.)
+
+Open it for them with `open "<url>"` on macOS (`xdg-open` on Linux,
+`start` on Windows). If you can't open a browser in this session, print
+the URL as a clickable link and say which button to click on the page.
+Open both tabs if they said both.
+
+Tell them what happens next, in one line each:
+
+- The link arrives **by email**, not in the browser — check inbox
+  (and spam) for it.
+- The download link **expires 24 hours** after it arrives, so download
+  the zip when they see it.
+- ChatGPT's export can take up to 7 days in the worst case; Claude's is
+  usually quick.
+- When the zip lands, **drop it into the chat** (or say where it is on
+  disk) — that's all that's needed.
+
+Two things that will come up:
+
+- **ChatGPT Business/Enterprise workspaces can't self-export.** If they
+  hit that, note it and move on — don't stall the build.
+- **Mobile can't export Claude.** It's web or desktop app only.
+
+Then **go straight into the interview while it processes.** Do not sit
+and wait for the file. If the zip arrives mid-session, take it and carry
+on. If it hasn't arrived by the end of the session, say so plainly and
+tell them to drop it in whenever it lands and re-run
+`/build-my-voice` — a voice file built later is fine; a fabricated one
+is not.
+
+If they answered **D (neither)**, skip this entirely and lean on meeting
+transcripts in step 4 instead.
+
+### 3. Interview (one question at a time, adaptive)
+
+Ask these nine seed questions in order, one at a time. Each question has a
 short breakdown of what a full answer covers. **Show the breakdown** so
 they know exactly what to include, then wait for their answer. Vague or
 partial answers are the norm, so if they skip part of the breakdown, ask
@@ -188,23 +267,89 @@ answers are the whole point: a generic answer produces a generic file.
 7. **First handoff.** If AI could take one thing off your plate first,
    what is it, and what makes it slow or annoying today?
 
-8. **How it should talk to you.** Blunt or warm? Short or detailed? Should
-   it push back or just execute? Any format you like (bullets, answer
-   first)?
+**About the work**
 
-**About the work and rules**
+8. **Tools and where things live.** Ask for a full inventory, not a
+   highlight reel: *"List every single tool you use in the business —
+   try to get all of them, not just the main ones. Things like Gmail,
+   Slack, Stripe, Google Drive, Notion, HubSpot, QuickBooks, Calendly,
+   Canva, GitHub. And where does your key info actually live — docs,
+   CRM, drives — that the AI should be able to pull from?"*
 
-9. **Tools and where things live.** What tools do you work in day to day,
-   and where does your key info live (docs, CRM, drives) that the AI
-   should know about or pull from? Step 5 checks this against what's
-   actually connected.
+   Give the examples out loud. People blank on this question and name
+   two tools; a concrete list unsticks them and they'll come back with
+   twelve. Prompt once more after their first answer — "anything for
+   invoicing, scheduling, storage, or support?" — since those four are
+   the usual blind spots.
 
-10. **Hard rules.** What must it never do? Brand or tone lines, compliance,
-    claims you can't make, price or approval rules, off-limits topics.
+   This question is what makes step 6 fast. Every tool named here gets
+   connected in step 6 without asking them again, so an exhaustive
+   answer now means they do nothing later but click authorize.
+
+   **As soon as they finish answering, launch a background subagent to
+   research the list, then carry straight on to Q9.** Do not make them
+   wait for it and do not narrate it beyond a half-sentence. Spawn a
+   `general-purpose` agent with roughly:
+
+   > For each of these tools — [list] — determine the best way to
+   > connect it to Claude Code today. Use WebSearch; do not answer from
+   > memory, since MCP and CLI availability changes constantly. For each
+   > tool return: (a) official CLI, with the exact install and auth
+   > commands, if a real one exists; (b) official MCP server, with the
+   > exact `claude mcp add` command and transport, if one exists;
+   > (c) whether it's an Anthropic-hosted first-party connector
+   > configured on claude.ai; (d) plain API key only, with the env var
+   > name and the URL to get the key. Recommend one path per tool using
+   > the CLI-first rule. Say "none found" rather than guessing a command
+   > — a wrong command wastes the user's time in the next step.
+
+   Why a subagent: the research is a dozen web searches whose output is
+   mostly noise, and it runs during Q9 for free. Why it must search:
+   this is the fastest-moving corner of the ecosystem, and a plausible
+   invented `npx` package name is worse than no answer.
+
+   When it comes back, save the result to `wiki/entities/` as a working
+   note or hold it for step 6 — either way, step 6 reads it instead of
+   re-deriving the same thing.
+
+9. **Brain dump — everything the first eight didn't ask.** Always last,
+    always asked, no matter how full the wiki already looks. Eight
+    questions get the shape of the business; they don't get the stuff
+    in their head that only they know to mention. Open the floor and
+    give them a list to react to, because a blank "anything else?"
+    gets "no, I think that's it" almost every time:
+
+    > Last one, and it's the open one. Dump anything else in your head
+    > that I haven't asked about. No structure needed, no full
+    > sentences, ramble as long as you want. Things worth including:
+    >
+    > - **Goals** — what you want to happen in 6 or 12 months
+    > - **Challenges** — what's stopping you from getting there right now
+    > - **Ideas** — things you're thinking about trying, or want to do
+    > - **Strengths** — what you're genuinely good at
+    > - **Weaknesses** — what you avoid, or keep getting wrong
+    > - Anything else: people, history, opinions, context you'd have to
+    >   explain to a new hire in week one
+
+    Treat the list as prompts, not a form — they don't have to hit
+    every bullet. If they give you three lines, ask one follow-up on
+    whichever bullet they skipped that matters most for their business,
+    then stop. Don't interrogate them at the end of a long interview.
+
+    Then **split the dump into real pages** rather than dropping it
+    somewhere whole as a lump of text. Goals become
+    `wiki/concepts/Goals.md`, current challenges go to `_hot.md` active
+    threads (and a project page if it's live work), ideas become
+    `wiki/concepts/Ideas.md` as a running list, strengths and
+    weaknesses go on their own `wiki/entities/<Their Name>.md`
+    alongside Q6. Anything that doesn't fit an existing page gets its
+    own. Link them like everything else.
 
 Adapt. If an earlier answer already covers a later question, don't ask it
 again, confirm it and move on. If they run a kind of business that raises
-an obvious gap these ten don't cover, ask about it.
+an obvious gap these nine don't cover, ask about it. Q9 is the
+catch-all, but a question you should have asked outright belongs in the
+interview, not left to the dump.
 
 **File each answer as you go, into the directory step 1 built.** Not into
 CLAUDE.md. Write the page as soon as the answer is good enough, so they
@@ -221,27 +366,31 @@ Default mapping, adapted to the folders you actually created:
 | Q5 bottleneck | `_hot.md` active threads + `wiki/projects/` if it's live work |
 | Q6 role and time | `wiki/entities/<Their Name>.md` |
 | Q7 first handoff | `wiki/projects/` as the first project page |
-| Q8 how it should talk | CLAUDE.md (standing behavior) + memory in step 6 |
-| Q9 tools | `wiki/entities/` one page per real tool; step 5 confirms |
-| Q10 hard rules | CLAUDE.md (standing behavior) |
+| Q8 tools | `wiki/entities/` one page per tool named; step 6 connects each |
+| Q9 brain dump | split across `wiki/concepts/Goals.md`, `wiki/concepts/Ideas.md`, `wiki/entities/<Their Name>.md`, `_hot.md`; new pages as needed |
 
-Only Q8 and Q10 belong in CLAUDE.md, because they are standing rules
-rather than facts. Everything else is a page. Link the pages to each
+Nothing from the interview belongs in CLAUDE.md. Every answer is a page. Link the pages to each
 other as you write them, and add each one to `index.md`.
 
-### 3. Hand off to build-my-voice
+### 4. Hand off to build-my-voice
 
 Once the schema, directory, and pages are in place, invoke the
 `build-my-voice` skill to build out how they actually write and talk.
 Pass it the directory shape step 1 built (so it knows where to file the
 voice file and how to wire it into the CLAUDE.md this session produced).
 
+Check first whether the export from step 2 has landed. If it has, hand
+the zip straight to `build-my-voice`. If it hasn't, ask once whether the
+email has shown up, then carry on without it and leave the voice file as
+the open item — they re-run `/build-my-voice` with the zip when it
+arrives.
+
 That skill depends on real uploads (chat exports, transcripts) and will
 say plainly if the person has nothing to upload yet rather than
 fabricating a voice — don't skip past that outcome silently if it
 happens; note it as the one open item.
 
-### 4. Install os-audit
+### 5. Install os-audit
 
 Make sure `os-audit` is available in this project so the
 setup can be checked for drift later — routing pointing at things that
@@ -256,28 +405,95 @@ Mention in chat that running `/os-audit` periodically (the CLAUDE.md's
 own Lint workflow, if step 1 produced one, is a good trigger point) is
 how they keep this from going stale.
 
-### 5. Wire up connections
+### 6. Wire up connections
 
 Now that the directory exists and there's somewhere for the answers to
 live, look at what's actually connected in this session — Drive,
 calendar, CRM, email, whatever MCP tools are visible — and reconcile it
-against what they told you in Q9.
+against what they told you in Q8.
 
 1. For each connected tool that matters to their work, write or update
    its page in `wiki/entities/`: what it is, what lives in it, what the
    agent is allowed to do with it.
-2. For anything they named in Q9 that **isn't** connected, say so plainly
-   and leave a page noting it as not yet wired up. A named-but-missing
-   tool is useful information, not a failure.
-3. If nothing at all is connected, that's fine. Note it as an open item,
-   tell them what connecting one would unlock for their setup
-   specifically, and move on. Do not stop the build over it.
+2. For anything they named in Q8 that **isn't** connected, connect it —
+   see *Connecting a tool* below. Do the work for them; never hand them
+   a docs page and tell them to figure it out.
+3. If something can't be connected (no integration exists, they don't
+   have an account), leave a page noting it as not yet wired up. A
+   named-but-missing tool is useful information, not a failure. Do not
+   stop the build over it.
 
 This is deliberately late in the flow. Connections are worth most once
 there's a directory to route them into, and gating the whole build on
 them just means people bounce off before they have anything.
 
-### 6. Seed persistent memory
+#### Connecting a tool
+
+**Your job is to do everything except the click that only they can make.**
+They should never have to hunt through a settings menu.
+
+Start from the Q8 research subagent's report — it already has the per-tool
+path and the exact commands. If it flagged something as "none found," check
+once yourself before telling them a tool can't be wired up. Three paths —
+pick by what the tool actually is, don't default to the connectors page:
+
+**A. Mature CLI exists** (`gh`, `stripe`, `vercel`, `supabase`, `aws`,
+`wrangler`, `railway`…) — **prefer this.** Install it for them, run the
+auth command, and let it open the browser itself:
+
+```
+brew install gh && gh auth login --web
+```
+
+Why first: a CLI costs zero context until it's called, exposes the full
+API rather than a curated subset, and is scriptable. An MCP server loads
+every one of its tool schemas into the window whether or not it gets
+used. Then write the tool's `wiki/entities/` page with **the exact
+commands their agent should use** — a CLI has to be taught; unlike MCP
+it doesn't announce itself.
+
+**B. Local or remote MCP server** (Stripe, Apify, Notion, Linear,
+Sentry, Playwright, anything with an npx package or an MCP URL) — the
+tool has no good CLI, or auth is per-user OAuth. Run it for them:
+
+```
+claude mcp add --transport http notion https://mcp.notion.com/mcp
+```
+
+That prints an OAuth URL. **Open it for them** and say exactly what to
+click — "authorize, then sign in with Google." That's their entire job.
+Use `--scope user` if the tool should follow them across every project,
+`--scope project` (writes `.mcp.json`, commit it) if it belongs to this
+OS only. Confirm with `claude mcp list` before moving on.
+
+**C. Anthropic-hosted connector** (Google Drive / Calendar / Gmail,
+Canva, Calendly, Fathom, Slack, and the rest of the first-party list) —
+these are **account-level, authorized on claude.ai, and synced down into
+Claude Code**. You can spot them in a session by the `mcp__claude_ai_`
+tool prefix. There is no CLI or `claude mcp add` path; the connectors
+page is genuinely the only way in, so don't waste a turn trying.
+
+Still don't make them navigate. Open the connectors page directly:
+
+```
+open "https://claude.ai/settings/connectors"
+```
+
+Tell them the exact connector name to enable and that it's authorize +
+sign in with Google, nothing more. Then have them start a fresh Claude
+Code session — connectors sync at session start, so the tools won't
+appear in the current one.
+
+**Choosing between them:** mature CLI → A. Hosted SaaS with OAuth and no
+real CLI → B. Google Workspace and the other first-party names → C, no
+choice. If a tool offers both a CLI and an MCP server, take the CLI
+unless they specifically want the model discovering the capability on
+its own without being taught.
+
+Record which path each tool took on its `wiki/entities/` page — it's the
+first thing anyone needs when a connection breaks six months later.
+
+### 7. Seed persistent memory
 
 Everything they just told you in the interview has to land somewhere,
 and not all of it belongs in the wiki/CLAUDE.md you just built. Claude
@@ -297,8 +513,8 @@ that folder is either empty or doesn't exist. Don't leave it that way:
    it points at the wiki for anything live.
 3. If anything from the interview is a **standing correction or working
    preference** rather than a business fact — e.g. "never use em dashes
-   in drafts," "always confirm before sending client emails," the
-   communication-style rule from Q8 — write it as a `feedback` memory
+   in drafts," "always confirm before sending client emails," a
+   communication-style rule they mentioned — write it as a `feedback` memory
    with a **Why** line.
    Facts about the business (offer, ICP, pricing) stay in the wiki and
    never get copied here. Memory notes point at wiki pages rather than
@@ -317,7 +533,7 @@ If this Claude Code install has no cross-session memory feature
 available, say so plainly and skip this step — don't fabricate a memory
 folder that won't actually get read.
 
-### 7. Turn on Remote Control
+### 8. Turn on Remote Control
 
 An OS is only useful if they can actually reach it. Remote Control lets
 them drive this session from their phone or another machine, which is
@@ -348,7 +564,7 @@ This is a user-level setting, so it applies to all their projects, not
 just this one — say that when you tell them. If they push back or want
 it project-only, drop it and move on; don't argue it.
 
-### 8. Hand off
+### 9. Hand off
 
 Tell them the directory is built, what each piece is for, and the single
 highest-value next step (usually: ingest their first real source, or
@@ -393,11 +609,13 @@ where. File naming convention.]
 rather than overwriting. Pages stay current, not chronological.]
 
 ## How to work with me
-[Q8, as instructions: "Be blunt. Lead with the answer. Skip preamble."
-This is standing behavior, so it lives here.]
+[Any communication preference they volunteered, as instructions: "Be
+blunt. Lead with the answer. Skip preamble." Standing behavior, so it
+lives here. Leave the section out entirely if they never said anything
+— do not invent a style for them.]
 
 ## Voice
-[Pointer to the voice file built in step 3, once it exists.]
+[Pointer to the voice file built in step 4, once it exists.]
 
 ## Workflows
 
@@ -432,7 +650,9 @@ Three stores, don't duplicate facts across them:
 If two disagree, the wiki wins for business facts.
 
 ## Hard rules (never break these)
-[Q10, as a plain list. Standing behavior, so it lives here.]
+[Anything they said must never happen, as a plain list. Usually surfaces
+in the brain dump or in passing during the interview. Standing behavior,
+so it lives here. Leave it out if nothing came up.]
 ```
 
 ### A wiki page
@@ -466,7 +686,7 @@ to write it down as given.
 
 The opposite failure is **interrogation**: dumping all ten at once, or
 grinding through follow-ups on a point that's already clear. If an answer
-is good, take it and move on. Ten sharp questions beat twenty tired ones.
+is good, take it and move on. Nine sharp questions beat twenty tired ones.
 
 A fourth: **skipping step 1**. The directory and CLAUDE.md come from
 working the LLM Wiki pattern with them, not from a template you fill in
@@ -518,6 +738,6 @@ Then Q2 (ICP) gets "founders of 7-figure Shopify skincare brands,
 usually right after a launch flopped," which becomes
 `wiki/concepts/Ideal Client.md` and links back to `[[Offer]]`.
 
-After the interview, step 3 asks for their Claude/ChatGPT export and any
-client call transcripts, and builds the voice file from them — short,
-blunt, no filler, matching how they actually write client emails.
+The ChatGPT export they kicked off back in step 2 lands mid-interview.
+Step 4 builds the voice file from it plus two client call transcripts:
+short, blunt, no filler, matching how they actually write client emails.
