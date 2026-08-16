@@ -164,3 +164,14 @@ Exposure rules: a mode is HIGH when a RED finding feeds it, MED when only YELLOW
 - A stale local snapshot of data whose live source of truth is an external tool (a task manager, a CRM) is a labeling problem, not a freshness problem. The fix is marking it "snapshot — live data lives in X," not endless re-syncing.
 - Suggest re-running quarterly, or after any big reorganization. The "Since last audit" section is the payoff for saving dated reports.
 - If the project also has the AIS-OS kit's `/audit` skill, that's the companion: `/audit` scores whether the AIOS is built right (Four Cs, structural); `/os-audit` checks whether it's still true. Run both for the full picture. If `/audit` isn't installed, skip the reference; this skill stands alone.
+
+---
+
+## Customizing this skill
+
+This file ships from the `delva-os` marketplace and is **replaced wholesale** every time you run `/plugin marketplace update delva-os`. Edits made here are lost on the next update.
+
+To customize it and keep the change:
+
+- **Project-specific inputs** (your brand, your pricing, your templates) belong in your own repo, not in this plugin. Point the skill at them from your `CLAUDE.md` and it will read them.
+- **Changing the skill itself:** copy `skills/os-audit/` into `.claude/skills/` in your project and disable the plugin (`/plugin`). Your copy is then yours, and updates stop touching it.

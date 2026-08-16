@@ -7,12 +7,22 @@
     {
       "name": "delva-os",
       "source": "./plugins/delva-os",
-      "description": "Build a personal AI operating system in one sitting: a CLAUDE.md router plus a real knowledge directory, a voice file built from your own words, and an audit skill to keep it from going stale."
+      "description": "The core. Build a personal AI operating system in one sitting: a CLAUDE.md router plus a real knowledge directory, a voice file built from your own words, and an audit skill to keep it from going stale. Everyone starts here."
     },
     {
-      "name": "grow-ai-skills",
-      "source": "./plugins/grow-ai-skills",
-      "description": "Grow AI's working skills in one plugin: turn a sales call into a branded proposal, turn client requirements into a live clickable prototype, and turn a folder of creatives into a paused Meta ad campaign. Bundles the Meta Ads MCP."
+      "name": "proposal-from-transcript",
+      "source": "./plugins/proposal-from-transcript",
+      "description": "Turn a sales call transcript into a finished, branded HTML proposal with scope and pricing."
+    },
+    {
+      "name": "build-prototype",
+      "source": "./plugins/build-prototype",
+      "description": "Turn a client call or requirements doc into a live clickable prototype — landing page, working sign-in, seeded demo data — deployed through the Lovable MCP, returning a URL the client can open."
+    },
+    {
+      "name": "meta-campaign-builder",
+      "source": "./plugins/meta-campaign-builder",
+      "description": "Turn a folder of creatives into a complete, paused Meta ad campaign: account preflight, every setting asked up front, media uploaded, campaign/ad set/creatives/ads created. Bundles the Meta Ads MCP."
     }
   ]
 }

@@ -251,3 +251,14 @@ Same with dictated material. Someone's voice-to-text messages are full
 of run-ons and "like" and "I mean." Writing content in that register
 produces something they will hate, because it's how they talk, not how
 they want to read. Flag the register split explicitly.
+
+---
+
+## Customizing this skill
+
+This file ships from the `delva-os` marketplace and is **replaced wholesale** every time you run `/plugin marketplace update delva-os`. Edits made here are lost on the next update.
+
+To customize it and keep the change:
+
+- **Project-specific inputs** (your brand, your pricing, your templates) belong in your own repo, not in this plugin. Point the skill at them from your `CLAUDE.md` and it will read them.
+- **Changing the skill itself:** copy `skills/build-my-voice/` into `.claude/skills/` in your project and disable the plugin (`/plugin`). Your copy is then yours, and updates stop touching it.

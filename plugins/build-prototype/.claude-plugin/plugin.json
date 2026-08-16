@@ -1,0 +1,7 @@
+{
+  "name": "build-prototype",
+  "description": "Turn a client call or requirements doc into a live clickable prototype — landing page, working sign-in, seeded demo data — deployed through the Lovable MCP, returning a URL the client can open.",
+  "version": "1.0.0",
+  "author": { "name": "Aidan Branley" },
+  "keywords": ["prototype", "lovable", "mvp", "demo", "client-delivery"]
+}

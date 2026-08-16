@@ -1,0 +1,7 @@
+{
+  "name": "meta-campaign-builder",
+  "description": "Turn a folder of creatives into a complete, paused Meta ad campaign: account preflight, every setting asked up front, media uploaded, campaign/ad set/creatives/ads created. Bundles the Meta Ads MCP.",
+  "version": "1.0.0",
+  "author": { "name": "Aidan Branley" },
+  "keywords": ["meta-ads", "facebook", "instagram", "advertising", "campaign"]
+}

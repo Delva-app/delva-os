@@ -153,6 +153,24 @@ LEFT JOIN user_roles r ON r.user_id = p.id;
 Preview URL, the demo logins, and a one-line note on what was assumed. The
 assumptions line is what starts the next call.
 
+Add one line naming **the module worth graduating** — the full-depth one that
+carries the client's actual pain. If they say yes, that module is what gets
+built for real first, and recording it now saves rereading the transcript later.
+
+### 6. Leave it graduatable
+
+If the client says yes, the prototype gets exported out of Lovable and rebuilt
+on Delva-owned infrastructure by the `build-production` skill. Two things make
+that cheap or expensive, and both are decided here:
+
+- **The schema must live in `supabase/migrations/`.** Confirm the files exist
+  with `list_files` before handing over. Without them the schema exists only
+  inside Lovable's Supabase instance, and the export produces a repo that cannot
+  boot.
+- **Seed data is not in git.** Lovable seeds by writing rows directly, so
+  migrations carry the tables and none of the content. Nothing to fix here —
+  just do not assume the seed travels with the code.
+
 ### Revisions
 
 For a second round, read `revisions.md` and send it through `send_message` on
@@ -221,3 +239,19 @@ it themselves.
 No production auth hardening, no real client data, no compliance claims. If the
 material raises HIPAA, PII, or anything similar, note it in `LINK.md` as a real
 build consideration and keep it out of the prototype.
+
+None of this is a limitation to apologise for. Lovable's Supabase instance is
+disposable by design — it exists to make the demo real enough to argue with, and
+it is thrown away at the graduation step. Building production concerns into a
+prototype spends credits on work that gets deleted.
+
+---
+
+## Customizing this skill
+
+This file ships from the `delva-os` marketplace and is **replaced wholesale** every time you run `/plugin marketplace update delva-os`. Edits made here are lost on the next update.
+
+To customize it and keep the change:
+
+- **Project-specific inputs** (your brand, your pricing, your templates) belong in your own repo, not in this plugin. Point the skill at them from your `CLAUDE.md` and it will read them.
+- **Changing the skill itself:** copy `skills/build-prototype/` into `.claude/skills/` in your project and disable the plugin (`/plugin`). Your copy is then yours, and updates stop touching it.

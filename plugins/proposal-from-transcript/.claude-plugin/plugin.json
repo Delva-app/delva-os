@@ -1,0 +1,7 @@
+{
+  "name": "proposal-from-transcript",
+  "description": "Turn a sales call transcript into a finished, branded HTML proposal with scope and pricing.",
+  "version": "1.0.0",
+  "author": { "name": "Aidan Branley" },
+  "keywords": ["proposal", "sales", "transcript", "client-delivery"]
+}

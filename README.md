@@ -1,9 +1,9 @@
 # Delva OS
 
-A marketplace of skills. The main one builds you an AI operating system:
+A marketplace of skills. The core one builds you an AI operating system:
 a `CLAUDE.md` your agent reads first every session, a real knowledge
 directory behind it, and a voice file so anything written as you
-actually sounds like you. Others do specific jobs.
+actually sounds like you. The rest do specific jobs, one plugin each.
 
 ## Install
 
@@ -13,53 +13,59 @@ Add the marketplace once:
 /plugin marketplace add Delva-app/delva-os
 ```
 
-Then install whichever plugins you want:
+Then install the core, plus whichever job skills you're set up with:
 
 ```
-/plugin install delva-os@delva-os                  # the OS builder
-/plugin install grow-ai-skills@delva-os            # Grow AI's delivery skills
+/plugin install delva-os@delva-os                    # the core — everyone gets this
+/plugin install proposal-from-transcript@delva-os
+/plugin install build-prototype@delva-os
+/plugin install meta-campaign-builder@delva-os
 ```
 
 Restart Claude Code, or run `/plugin` to confirm they're enabled. Skills
 work in every project once installed.
 
-To pick up later updates, run `/plugin marketplace update delva-os`.
+To pick up later updates: `/plugin marketplace update delva-os`. Each
+plugin updates on its own, so a new version of one skill never disturbs
+the others.
 
 If you'd rather not use the plugin system, copy the skill folders under
 `plugins/*/skills/` into `.claude/skills/` in your project. Same result,
 but per project and without updates.
 
-## Plugins
+## Structure
 
-### `delva-os`
+One plugin per skill, one marketplace for all of them.
 
-The OS builder: `/build-my-os`, `/build-my-voice`, `/os-audit`. Details
-below.
+```
+plugins/
+  delva-os/                    # the core three — build-my-os, build-my-voice, os-audit
+  proposal-from-transcript/
+  build-prototype/
+  meta-campaign-builder/
+```
 
-### `grow-ai-skills`
+The core plugin is fixed and shared by everyone. Everything else is
+installed per person, so you only carry what you actually use and you
+only update what you actually want to change.
 
-One plugin per client. This is Grow AI's — three delivery skills that
-run the work end to end:
+Adding a skill means adding a directory under `plugins/` (with a
+`.claude-plugin/plugin.json` and `skills/<name>/SKILL.md`) and one entry
+in `.claude-plugin/marketplace.json`. Nobody's existing install changes
+until they install it.
 
-- **`/proposal-from-transcript`** — a sales call transcript in, a
-  finished branded HTML proposal out, with scope and pricing.
-- **`/build-prototype`** — a call or requirements doc in, a live
-  clickable prototype out: landing page, working sign-in, seeded demo
-  data, deployed through the Lovable MCP, and a URL the client can open.
-- **`/meta-campaign-builder`** — a folder of creatives in, a complete
-  **paused** Meta campaign out. Account preflight first so blockers
-  surface before you answer anything, every setting asked up front as
-  clickable multiple choice, then media uploaded and campaign, ad set,
-  creatives and one ad per creative built. Nothing is ever activated. It
-  does not write ad copy — you supply primary text and headlines.
+## Customizing
 
-It bundles the Meta Ads MCP, so installing the plugin wires up that
-connection too. You'll still authorize it in the browser.
+Plugin files are replaced wholesale on every update — edits made inside
+an installed plugin are lost. Two ways to keep a change:
 
-To add more later, drop a new skill folder into
-`plugins/grow-ai-skills/skills/`. No manifest edit needed.
+- **Your inputs** (brand, pricing, templates) live in your own repo, not
+  in the plugin. Point at them from your `CLAUDE.md`.
+- **Changing a skill itself** — copy `skills/<name>/` into
+  `.claude/skills/` in your project and disable the plugin. Your copy is
+  then yours, and updates stop touching it.
 
-## What's in `delva-os`
+## The core: `delva-os`
 
 ### `/build-my-os`
 
@@ -102,6 +108,32 @@ Read-only health check on a setup that already exists. Finds routing
 that points at files that aren't there, stale numbers, duplicate
 folders, orphan pages. Run it every month or so, or whenever your agent
 starts missing things it should know.
+
+## The job skills
+
+### `proposal-from-transcript`
+
+A sales call transcript in, a finished branded HTML proposal out, with
+scope and pricing.
+
+### `build-prototype`
+
+A call or requirements doc in, a live clickable prototype out: landing
+page, working sign-in, seeded demo data, deployed through the Lovable
+MCP, and a URL the client can open. Expects the Lovable MCP to be
+configured on the host.
+
+### `meta-campaign-builder`
+
+A folder of creatives in, a complete **paused** Meta campaign out.
+Account preflight first so blockers surface before you answer anything,
+every setting asked up front as clickable multiple choice, then media
+uploaded and campaign, ad set, creatives and one ad per creative built.
+Nothing is ever activated. It does not write ad copy — you supply
+primary text and headlines.
+
+Ships the Meta Ads MCP, so installing the plugin wires up that
+connection too. You'll still authorize it in the browser.
 
 ## The idea
 
