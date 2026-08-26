@@ -135,18 +135,36 @@ layers together, in collaboration with them, adapted to their domain.
   send them. Mention it when you walk them through the layout: this is
   the folder that makes a skill installable by dragging it in.
 
+  **Then move this skill into it.** `build-my-os` is already sitting
+  somewhere in their project — they had to drop it in to run you, and
+  wherever they dropped it is almost certainly the project root or a
+  loose folder next to it, which is exactly the mess step 10 cleans up.
+  Find its folder, and if it isn't already at
+  `.claude/skills/build-my-os/`, move the whole folder there (contents
+  and all, including `references/`):
+
+  ```
+  mkdir -p .claude/skills && mv "build-my-os" .claude/skills/
+  ```
+
+  Moving it mid-run is safe: you're already loaded. Skip this if it came
+  from a plugin or a user-level skills folder rather than living in
+  their project — nothing to tidy in that case. Say one line about what
+  you did so they know where it went.
+
 Note that `CLAUDE.md` sits at the project root, not inside `.claude/` —
 that's where it gets auto-loaded from.
 
-This step produces the CLAUDE.md, and it produces it as a **router**
-(see the rule above). Write the schema now: the folder map, the page
-conventions, the ingest and query workflows, the memory precedence. It
-should be a complete, working file before the interview starts, with no
-business facts in it yet and no blanks waiting to be filled.
+**Create `CLAUDE.md` here, but leave it empty.** The file gets written
+for real in step 9, once the folder tree, the wiki pages, the voice file
+and the connections all exist — a router can only route to things that
+are there, and writing it now means writing it twice. Creating it now is
+still worth doing: it claims the spot at the project root, and it shows
+up in the layout you're walking them through.
 
-Create the folders and navigation files with real starting content, not
-stubs. `index.md` and `log.md` should reflect this setup session as
-their first entries.
+Everything else in this step gets **real starting content, not stubs.**
+Create the folders, and write `index.md` and `log.md` with this setup
+session as their first entries.
 
 ### 2. Kick off their AI chat exports
 
@@ -236,11 +254,18 @@ answers are the whole point: a generic answer produces a generic file.
 
 **About the business**
 
-1. **Your offer.** What exactly do you sell? Break it down:
-   - The core outcome you deliver (the result, not the label)
-   - What's included: deliverables, scope, timeline
-   - What you charge and the pricing model (one-time, retainer, %, tiers)
-   - Any guarantee or risk reversal you offer
+1. **Your offer.** Ask it as an outcome question, not a spec sheet:
+   *"What's the core outcome you deliver? The result they get, not the
+   label you put on it."* Then show what a full answer covers, framed
+   as things to include rather than a form to fill in:
+
+   > Worth including in your answer:
+   > - The deliverables, the scope, the timeline
+   > - What you charge and how it's structured (one-time, retainer, %, tiers)
+   > - Any guarantee or risk reversal
+
+   The outcome is the question. The rest is the prompt list so they
+   don't leave half of it out.
 
 2. **Your ideal client (ICP).** Who is the perfect buyer, exactly?
    - Who they are: role, industry, company size or stage, or life situation
@@ -254,9 +279,17 @@ answers are the whole point: a generic answer produces a generic file.
    specific method, angle, or proof that makes you different, not just a
    claim of "better."
 
-5. **Current bottleneck.** What's the one constraint holding the business
-   back right now (leads, delivery, time, cash, hiring)? This tells the AI
-   what to prioritize.
+5. **Current bottleneck.** *"What's the one constraint holding the
+   business back right now? Be specific."* A one-word answer like
+   "delivery" or "leads" is not usable, so give an example of the
+   resolution you're after:
+
+   > For example: "if we brought on three more clients right now we
+   > couldn't fulfil them, specifically writing the content scripts —
+   > that's all me and it's about six hours a client."
+
+   Push until you know which part of which process breaks and why. That
+   specificity is what tells the AI what to prioritize.
 
 **About you**
 
@@ -269,18 +302,21 @@ answers are the whole point: a generic answer produces a generic file.
 
 **About the work**
 
-8. **Tools and where things live.** Ask for a full inventory, not a
-   highlight reel: *"List every single tool you use in the business —
-   try to get all of them, not just the main ones. Things like Gmail,
-   Slack, Stripe, Google Drive, Notion, HubSpot, QuickBooks, Calendly,
-   Canva, GitHub. And where does your key info actually live — docs,
-   CRM, drives — that the AI should be able to pull from?"*
+8. **Tools.** Ask for a full inventory, not a highlight reel:
+   *"List every single tool you use in the business — try to get all of
+   them, not just the main ones. Things like Gmail, Slack, Stripe,
+   Google Drive, Notion, HubSpot, QuickBooks, Calendly, Canva, GitHub."*
 
    Give the examples out loud. People blank on this question and name
    two tools; a concrete list unsticks them and they'll come back with
-   twelve. Prompt once more after their first answer — "anything for
-   invoicing, scheduling, storage, or support?" — since those four are
-   the usual blind spots.
+   twelve.
+
+   Then **read their list before prompting again.** Invoicing,
+   scheduling, storage and support are the usual blind spots, but only
+   ask about the ones their answer doesn't already cover — if they named
+   Stripe, don't ask about invoicing. A follow-up asking for something
+   they just gave you reads like you weren't listening. If the list
+   covers all four, say nothing and move on.
 
    This question is what makes step 6 fast. Every tool named here gets
    connected in step 6 without asking them again, so an exhaustive
@@ -376,14 +412,34 @@ other as you write them, and add each one to `index.md`.
 
 Once the schema, directory, and pages are in place, invoke the
 `build-my-voice` skill to build out how they actually write and talk.
-Pass it the directory shape step 1 built (so it knows where to file the
-voice file and how to wire it into the CLAUDE.md this session produced).
+Pass it the directory shape step 1 built so it knows where to file the
+voice file. The pointer to it goes into `CLAUDE.md` when you write that
+in step 9.
 
 Check first whether the export from step 2 has landed. If it has, hand
 the zip straight to `build-my-voice`. If it hasn't, ask once whether the
 email has shown up, then carry on without it and leave the voice file as
 the open item — they re-run `/build-my-voice` with the zip when it
 arrives.
+
+**Also pull their meeting transcripts from whatever recorder they use.**
+Q8 will usually have named it (Fathom, Granola, Otter, Fireflies, Read,
+Zoom's own recording). Check whether it's connected in this session or
+has a CLI, and pull from it directly rather than asking them to export
+anything by hand.
+
+One rule decides whether the material is usable:
+
+- **Raw transcripts — use them.** Word-for-word speech is the best voice
+  source after their own typed messages. It's how they actually talk,
+  including the filler, the false starts and the phrases they reach for.
+- **AI-written summaries, recaps, action items or "key moments" — do not
+  use them.** That text was written by a model, not by them. Feeding it
+  into a voice file teaches the voice file to sound like the summarizer.
+
+If the recorder only exposes summaries and not the underlying transcript,
+say so plainly and leave it out. Chat exports plus nothing beats chat
+exports plus laundered AI prose.
 
 That skill depends on real uploads (chat exports, transcripts) and will
 say plainly if the person has nothing to upload yet rather than
@@ -402,10 +458,22 @@ and leave it alone rather than installing a second copy. If it isn't
 available at all, say so plainly and tell them where to drop it — don't
 silently skip it, and don't write a hollow stub SKILL.md in its place.
 Mention in chat that running `/os-audit` periodically (the CLAUDE.md's
-own Lint workflow, if step 1 produced one, is a good trigger point) is
+own Lint workflow, if step 9 produces one, is a good trigger point) is
 how they keep this from going stale.
 
 ### 6. Wire up connections
+
+**Tell them what this step is before you start it**, because it's the
+one people skip and it's the one that makes the difference:
+
+> This is the important part. This is how every tool and everything in
+> it comes into one place, so the AI can actually reach your calendar,
+> your docs, your CRM and your payments instead of just knowing they
+> exist. Without this it knows your business. With this it can work in
+> it.
+
+Say that, then do it. Don't offer it as optional and don't leave it to
+the end of a hand-off list where it turns into homework.
 
 Now that the directory exists and there's somewhere for the answers to
 live, look at what's actually connected in this session — Drive,
@@ -525,8 +593,8 @@ that folder is either empty or doesn't exist. Don't leave it that way:
    moving on, so they understand where things live going forward: this
    memory folder for how-you-work facts, the wiki for business facts,
    CLAUDE.md for standing rules — and if two disagree, the wiki wins.
-   This mirrors the `## Memory systems` section already written into
-   their CLAUDE.md in step 1 — point them at it rather than repeating
+   This mirrors the `## Memory systems` section that goes into their
+   CLAUDE.md in step 9 — keep it to a paragraph rather than repeating
    yourself at length.
 
 If this Claude Code install has no cross-session memory feature
@@ -564,7 +632,61 @@ This is a user-level setting, so it applies to all their projects, not
 just this one — say that when you tell them. If they push back or want
 it project-only, drop it and move on; don't argue it.
 
-### 9. Hand off
+### 9. Write CLAUDE.md
+
+Now write the file step 1 created empty. Everything it routes to exists
+at this point, so you're describing a real directory rather than
+predicting one.
+
+Write it as a **router** (see the rule at the top of this file) using
+the Output format below: the scope line, the architecture, the literal
+folder tree you actually built, the page conventions, the ingest and
+query workflows, the memory precedence, the pointer to the voice file
+from step 4, their communication preferences and hard rules if any came
+up. No offer, no pricing, no ICP, no bottleneck — those are pages, and
+by now they are pages.
+
+Two things to check before you move on:
+
+- **Every path it names exists.** Walk the tree and confirm. A router
+  pointing at a folder you decided against creating is worse than no
+  router.
+- **Could you swap in a different person's business and change almost
+  nothing?** If a price or a client type made it in, delete it and check
+  the page it belongs on has it instead.
+
+Then show them the file, and say in one line what it's for: this is what
+loads first in every session from now on.
+
+### 10. Tidy the file structure
+
+The project root is probably messy now, and it's messy because of how
+they got here. To run this skill at all they had to drag a skill folder
+into an otherwise empty project, so it landed loose at the root. Then
+this skill built the real structure around it. Whatever else they
+dropped in while they were figuring it out is still sitting there too.
+
+Read the actual tree and fix it:
+
+1. **Every skill lives at `.claude/skills/<name>/SKILL.md`.** A skill
+   folder anywhere else does not load. Move any stragglers in.
+2. **Loose files at the root** — a zip from step 2, a transcript, notes
+   they pasted in, a downloaded export — go to `raw/` if they're source
+   material, or get deleted if they're leftovers from installing. Ask
+   before deleting anything you didn't create.
+3. **Empty folders you created but never filled** get removed, and the
+   line about them comes out of `CLAUDE.md` and `index.md` too. A
+   `wiki/answers/` with nothing in it is fine because it's about to have
+   something; a subfolder you created out of habit and this business
+   will never use is just noise in the router.
+4. **The root should be legible in one screen**: the wiki folders,
+   `raw/`, the navigation files, `CLAUDE.md`, and `.claude/`. Nothing
+   else.
+
+Then re-check `CLAUDE.md` and `index.md` against the tree one last time,
+since step 10 may have moved something step 9 described.
+
+### 11. Hand off
 
 Tell them the directory is built, what each piece is for, and the single
 highest-value next step (usually: ingest their first real source, or
@@ -688,24 +810,30 @@ The opposite failure is **interrogation**: dumping all ten at once, or
 grinding through follow-ups on a point that's already clear. If an answer
 is good, take it and move on. Nine sharp questions beat twenty tired ones.
 
-A fourth: **skipping step 1**. The directory and CLAUDE.md come from
-working the LLM Wiki pattern with them, not from a template you fill in
-unilaterally after the interview. The interview answers are content that
-gets filed into the structure step 1 built — never the other way around.
+A fourth: **skipping step 1**. The directory comes from working the LLM
+Wiki pattern with them, not from a template you fill in unilaterally
+after the interview. The interview answers are content that gets filed
+into the structure step 1 built — never the other way around.
+
+A fifth: **writing CLAUDE.md early anyway.** Step 1 creates the file and
+leaves it empty on purpose. If you catch yourself drafting the schema
+before the wiki pages exist, stop — you'll only rewrite it in step 9,
+and a router written against a directory that doesn't exist yet ends up
+pointing at folders you never built.
 
 ## Example
 
 Step 1 sets up `raw/`, `wiki/entities/`, `wiki/concepts/`,
-`wiki/projects/`, `index.md`, `log.md`, `.claude/skills/`, and a
-complete router `CLAUDE.md` for an e-commerce email agency. Then Q1
-(offer), shown with its breakdown: core outcome, what's included,
-pricing, guarantee.
+`wiki/projects/`, `index.md`, `log.md` and `.claude/skills/` for an
+e-commerce email agency, moves the `build-my-os` folder in off the root,
+and creates an empty `CLAUDE.md`. Then Q1: *"What's the core outcome you
+deliver?"*, with the include-list underneath.
 
 User (Q1): "I do email marketing for e-commerce brands."
 
-That's an industry, and it skips most of the breakdown. Follow up for the
-missing pieces: "What exactly do you deliver, what do you charge, and do
-you have a guarantee?"
+That's an industry, not an outcome, and it skips the include-list.
+Follow up for the missing pieces: "What exactly do you deliver, what do
+you charge, and do you have a guarantee?"
 
 User: "I write and manage their whole email calendar. $3k a month
 retainer. If they don't make back my fee in 60 days I work free until they do."
@@ -731,8 +859,9 @@ Sold to [[Ideal Client]]. What makes it different: [[Our Edge]].
 ```
 
 `_hot.md` gets one line: `Retainer: $3k/mo.` `index.md` gets
-`- [[Offer]] — what we sell, pricing, guarantee.` CLAUDE.md gets
-nothing, because nothing about this changed the schema.
+`- [[Offer]] — what we sell, pricing, guarantee.` CLAUDE.md is still
+empty at this point, and when step 9 writes it none of this appears in
+it, because nothing here is schema.
 
 Then Q2 (ICP) gets "founders of 7-figure Shopify skincare brands,
 usually right after a launch flopped," which becomes
