@@ -245,16 +245,24 @@ transcripts in step 4 instead.
 
 ### 3. Interview (one question at a time, adaptive)
 
-Ask these nine seed questions in order, one at a time. Each question has a
-short breakdown of what a full answer covers. **Show the breakdown** so
-they know exactly what to include, then wait for their answer. Vague or
-partial answers are the norm, so if they skip part of the breakdown, ask
-one tight follow-up for the missing piece before moving on. Specific
-answers are the whole point: a generic answer produces a generic file.
+Ask these nine seed questions in order, one at a time.
+
+**Every question is asked the same shape:** the plain question on its own
+line, then a short **What to include** list underneath, then you wait.
+The question is the question. The list is a prompt so they don't leave
+half the answer out — it is not a form and they don't have to hit every
+bullet. Ask it exactly as written below; don't merge the list back into
+the question as a run-on sentence, because a four-clause question gets a
+one-clause answer.
+
+Vague or partial answers are the norm, so if they skip a bullet that
+matters, ask one tight follow-up for that piece before moving on.
+Specific answers are the whole point: a generic answer produces a
+generic file.
 
 **About the business**
 
-1. **Your offer.** Ask the plain question, then show what to include:
+1. **Your offer.**
 
    > What's your offer?
    >
@@ -269,49 +277,95 @@ answers are the whole point: a generic answer produces a generic file.
    so they don't leave half of it out, not a form to fill in. If the
    answer names an industry instead of an outcome, that's the follow-up.
 
-2. **Your ideal client (ICP).** Who is the perfect buyer, exactly?
-   - Who they are: role, industry, company size or stage, or life situation
-   - The trigger that makes them need you right now
-   - Who's a bad fit, the client you turn away
+2. **Your ideal client.**
 
-3. **The core problem.** What painful problem are they actually paying you
-   to solve, and what does it cost them if they don't fix it?
+   > Who's your ideal client?
+   >
+   > What to include:
+   > - Who they are — role, industry, company size or stage, or life
+   >   situation
+   > - The trigger that makes them need you right now, not next year
+   > - Who's a bad fit — the client you turn away, or wish you had
 
-4. **Your edge (unique mechanism).** Why you over the alternatives? The
-   specific method, angle, or proof that makes you different, not just a
-   claim of "better."
+   "Small businesses" is not an answer. Push until the description could
+   only be a handful of real people they could name.
 
-5. **Current bottleneck.** *"What's the one constraint holding the
-   business back right now? Be specific."* A one-word answer like
-   "delivery" or "leads" is not usable, so give an example of the
-   resolution you're after:
+3. **The core problem.**
 
+   > What's the problem they're actually paying you to solve?
+   >
+   > What to include:
+   > - The painful version of it, in their words rather than yours
+   > - What it costs them if they never fix it — money, time, or the
+   >   thing they can't do until it's fixed
+   > - What they've already tried that didn't work
+
+4. **Your edge.**
+
+   > Why you over the alternatives?
+   >
+   > What to include:
+   > - The specific method or angle you use that others don't
+   > - The proof — results, numbers, a case, background that earns it
+   > - What you'd say to someone comparing you against the obvious
+   >   cheaper option
+
+   "We care more" and "we're better" are claims, not edges. If that's
+   what comes back, ask what they do differently in the actual work.
+
+5. **Current bottleneck.**
+
+   > What's the one constraint holding the business back right now? Be
+   > specific.
+   >
+   > What to include:
+   > - Which part of which process actually breaks
+   > - What happens if you push more volume through it today
+   > - Who or what it depends on
+   >
    > For example: "if we brought on three more clients right now we
    > couldn't fulfil them, specifically writing the content scripts —
    > that's all me and it's about six hours a client."
 
-   Push until you know which part of which process breaks and why. That
-   specificity is what tells the AI what to prioritize.
+   A one-word answer like "delivery" or "leads" is not usable. Push until
+   you know which part of which process breaks and why. That specificity
+   is what tells the AI what to prioritize.
 
 **About you**
 
-6. **Your role and time.** What's your role, and where does your time
-   actually go? What are you doing when you're most valuable, versus what
-   eats your day?
+6. **Your role and time.**
 
-7. **First handoff.** If AI could take one thing off your plate first,
-   what is it, and what makes it slow or annoying today?
+   > What's your role, and where does your time actually go?
+   >
+   > What to include:
+   > - What you're doing when you're most valuable to the business
+   > - What eats the day that isn't that
+   > - Anything only you can do, and anything you do only because
+   >   nobody else has picked it up
+
+7. **First handoff.**
+
+   > If AI could take one thing off your plate first, what is it?
+   >
+   > What to include:
+   > - The task, concretely enough that someone could watch you do it
+   > - What makes it slow or annoying today
+   > - How you'd know it had been done right
 
 **About the work**
 
-8. **Tools.** Ask for a full inventory, not a highlight reel:
-   *"List every single tool you use in the business — try to get all of
-   them, not just the main ones. Things like Gmail, Slack, Stripe,
-   Google Drive, Notion, HubSpot, QuickBooks, Calendly, Canva, GitHub."*
+8. **Tools.**
+
+   > List every single tool you use in the business. Try to get all of
+   > them, not just the main ones.
+   >
+   > Things like: Gmail, Slack, Stripe, Google Drive, Notion, HubSpot,
+   > QuickBooks, Calendly, Canva, GitHub.
 
    Give the examples out loud. People blank on this question and name
    two tools; a concrete list unsticks them and they'll come back with
-   twelve.
+   twelve. This is the one question where the list is meant to be
+   exhaustive rather than a prompt.
 
    Then **read their list before prompting again.** Invoicing,
    scheduling, storage and support are the usual blind spots, but only
@@ -359,7 +413,9 @@ answers are the whole point: a generic answer produces a generic file.
 
     > Last one, and it's the open one. Dump anything else in your head
     > that I haven't asked about. No structure needed, no full
-    > sentences, ramble as long as you want. Things worth including:
+    > sentences, ramble as long as you want.
+    >
+    > What to include:
     >
     > - **Goals** — what you want to happen in 6 or 12 months
     > - **Challenges** — what's stopping you from getting there right now
