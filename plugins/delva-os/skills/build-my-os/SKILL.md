@@ -254,18 +254,20 @@ answers are the whole point: a generic answer produces a generic file.
 
 **About the business**
 
-1. **Your offer.** Ask it as an outcome question, not a spec sheet:
-   *"What's the core outcome you deliver? The result they get, not the
-   label you put on it."* Then show what a full answer covers, framed
-   as things to include rather than a form to fill in:
+1. **Your offer.** Ask the plain question, then show what to include:
 
-   > Worth including in your answer:
+   > What's your offer?
+   >
+   > What to include:
+   > - The core outcome you deliver — the result they get, not the label
+   >   you put on it
    > - The deliverables, the scope, the timeline
    > - What you charge and how it's structured (one-time, retainer, %, tiers)
    > - Any guarantee or risk reversal
 
-   The outcome is the question. The rest is the prompt list so they
-   don't leave half of it out.
+   The question is "what's your offer." The list underneath is a prompt
+   so they don't leave half of it out, not a form to fill in. If the
+   answer names an industry instead of an outcome, that's the follow-up.
 
 2. **Your ideal client (ICP).** Who is the perfect buyer, exactly?
    - Who they are: role, industry, company size or stage, or life situation
@@ -826,12 +828,12 @@ pointing at folders you never built.
 Step 1 sets up `raw/`, `wiki/entities/`, `wiki/concepts/`,
 `wiki/projects/`, `index.md`, `log.md` and `.claude/skills/` for an
 e-commerce email agency, moves the `build-my-os` folder in off the root,
-and creates an empty `CLAUDE.md`. Then Q1: *"What's the core outcome you
-deliver?"*, with the include-list underneath.
+and creates an empty `CLAUDE.md`. Then Q1: *"What's your offer?"*, with
+the what-to-include list underneath.
 
 User (Q1): "I do email marketing for e-commerce brands."
 
-That's an industry, not an outcome, and it skips the include-list.
+That's an industry, not an outcome, and it skips the rest of the list.
 Follow up for the missing pieces: "What exactly do you deliver, what do
 you charge, and do you have a guarantee?"
 
