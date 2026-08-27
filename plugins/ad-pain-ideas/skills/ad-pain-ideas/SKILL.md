@@ -1,5 +1,5 @@
 ---
-name: ad-angles-from-calls
+name: ad-pain-ideas
 description: >-
   Mine a body of recorded calls — sales, discovery, onboarding, client check-ins
   — for the pain points buyers state in their own words, rank those pains by how
@@ -19,7 +19,7 @@ description: >-
   (meta-campaign-builder) — this skill stops at concepts and copy.
 ---
 
-# Ad Angles from Calls
+# Ad Pain Ideas
 
 Most ad copy fails because it is written from the seller's side of the desk. The
 agency guesses at the pain, phrases it in category language, and ships a hook
