@@ -17,12 +17,17 @@
     {
       "name": "build-prototype",
       "source": "./plugins/build-prototype",
-      "description": "Turn a client call or requirements doc into a live clickable prototype — landing page, working sign-in, seeded demo data — deployed through the Lovable MCP, returning a URL the client can open."
+      "description": "Turn a client call or requirements doc into a live clickable prototype \u2014 landing page, working sign-in, seeded demo data \u2014 deployed through the Lovable MCP, returning a URL the client can open."
     },
     {
       "name": "meta-campaign-builder",
       "source": "./plugins/meta-campaign-builder",
       "description": "Turn a folder of creatives into a complete, paused Meta ad campaign: account preflight, every setting asked up front, media uploaded, campaign/ad set/creatives/ads created. Bundles the Meta Ads MCP."
+    },
+    {
+      "name": "ad-angles-from-calls",
+      "source": "./plugins/ad-angles-from-calls",
+      "description": "Mine recorded calls for the pain points buyers state in their own words, rank them by frequency x severity, and turn the top ones into static and video ad concepts with copy. Portable: run it on your own calls or on a client's."
     }
   ]
 }

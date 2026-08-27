@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{SUBJECT}} — Ad Angles from Calls</title>
+<style>
+  :root{
+    --accent:{{BRAND_COLOR}};
+    --ink:#14161a; --muted:#6b7280; --line:#e6e8ec; --bg:#ffffff; --panel:#f7f8fa;
+    --quote:#fbfbfd;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:880px;margin:0 auto;padding:56px 28px 96px}
+  header{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:40px}
+  .eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+  h1{font-size:34px;line-height:1.15;margin:0 0 14px;letter-spacing:-.02em}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:13px;color:var(--muted)}
+  h2{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+    margin:56px 0 18px;font-weight:600}
+  h3{font-size:20px;margin:0 0 4px;letter-spacing:-.01em}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px}
+  .card .rank{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  .card p.pain{font-weight:600;margin:6px 0 10px;font-size:16px}
+  .score{font-variant-numeric:tabular-nums;font-size:12px;color:var(--muted)}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+  table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+  th{text-align:left;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+    padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+  td{padding:13px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+  .flag{display:inline-block;font-size:11px;color:var(--muted);border:1px solid var(--line);
+    border-radius:4px;padding:1px 6px;margin-left:6px}
+  details{margin-top:8px}
+  summary{cursor:pointer;font-size:13px;color:var(--accent)}
+  blockquote{margin:12px 0;padding:12px 16px;background:var(--quote);border-left:3px solid var(--accent);
+    border-radius:0 6px 6px 0;font-size:15px}
+  blockquote cite{display:block;margin-top:8px;font-style:normal;font-size:12px;color:var(--muted)}
+  .pain-block{border:1px solid var(--line);border-radius:12px;padding:24px;margin-bottom:22px}
+  .concepts{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:18px}
+  .concept{background:var(--panel);border-radius:10px;padding:18px}
+  .kind{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  .angle{font-weight:600;margin:6px 0 12px}
+  .field{font-size:14px;margin:0 0 8px}
+  .field b{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--muted);font-weight:600;margin-bottom:2px}
+  ol.beats{margin:2px 0 0;padding-left:18px;font-size:14px}
+  .bank{columns:2;column-gap:26px;font-size:14px}
+  .bank p{break-inside:avoid;margin:0 0 10px;color:var(--ink)}
+  .note{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:18px;margin-top:56px}
+  @media (max-width:640px){.bank{columns:1}.wrap{padding:36px 18px 64px}h1{font-size:27px}}
+  @media print{.wrap{padding:0}details{display:block}details>summary{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">Ad angles from calls</p>
+  <h1>{{SUBJECT}}</h1>
+  <div class="meta">
+    <span>{{DATE}}</span>
+    <span>{{CALL_COUNT}} calls analysed</span>
+    <span>{{DATE_RANGE}}</span>
+    <span>Source: {{SOURCE}}</span>
+  </div>
+</header>
+
+<h2>Top three</h2>
+<div class="cards">
+  <!-- repeat x3 -->
+  <div class="card">
+    <span class="rank">#1</span>
+    <p class="pain">{{PAIN}}</p>
+    <blockquote>{{QUOTE}}<cite>{{SPEAKER}} — {{CALL}}, {{CALL_DATE}}</cite></blockquote>
+    <p class="score">{{FREQ}} calls × severity {{SEV}} = <b>{{SCORE}}</b></p>
+  </div>
+</div>
+
+<h2>Full ranking</h2>
+<div class="tablewrap">
+<table>
+  <thead><tr><th>#</th><th>Pain, in their words</th><th>Calls</th><th>Severity</th><th>Score</th></tr></thead>
+  <tbody>
+    <!-- repeat per pain -->
+    <tr>
+      <td class="num">{{RANK}}</td>
+      <td>
+        {{PAIN}}<span class="flag">{{FLAG}}</span>
+        <details>
+          <summary>{{QUOTE_COUNT}} quotes</summary>
+          <blockquote>{{QUOTE}}<cite>{{SPEAKER}} — {{CALL}}, {{CALL_DATE}}</cite></blockquote>
+        </details>
+      </td>
+      <td class="num">{{FREQ}}</td>
+      <td class="num">{{SEV}}</td>
+      <td class="num"><b>{{SCORE}}</b></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Ad concepts</h2>
+<!-- repeat per top pain -->
+<div class="pain-block">
+  <h3>{{RANK}}. {{PAIN}}</h3>
+  <blockquote>{{QUOTE}}<cite>{{SPEAKER}} — {{CALL}}, {{CALL_DATE}}</cite></blockquote>
+  <div class="concepts">
+
+    <div class="concept">
+      <span class="kind">Static</span>
+      <p class="angle">{{ANGLE_NAME}}</p>
+      <p class="field"><b>Headline</b>{{HEADLINE}}</p>
+      <p class="field"><b>Subhead</b>{{SUBHEAD}}</p>
+      <p class="field"><b>Visual</b>{{VISUAL}}</p>
+      <p class="field"><b>From</b>{{SPEAKER}}, {{CALL_DATE}}</p>
+    </div>
+
+    <div class="concept">
+      <span class="kind">Video</span>
+      <p class="angle">{{ANGLE_NAME}}</p>
+      <p class="field"><b>Hook (0–3s, spoken)</b>{{HOOK}}</p>
+      <p class="field"><b>Beats</b></p>
+      <ol class="beats"><li>{{BEAT}}</li></ol>
+      <p class="field" style="margin-top:8px"><b>CTA</b>{{CTA}}</p>
+      <p class="field"><b>From</b>{{SPEAKER}}, {{CALL_DATE}}</p>
+    </div>
+
+  </div>
+</div>
+
+<h2>Language bank</h2>
+<div class="bank">
+  <!-- verbatim phrases, unedited, one per p -->
+  <p>“{{PHRASE}}”</p>
+</div>
+
+<h2>Unevidenced hypotheses</h2>
+<p class="field">{{HYPOTHESES}}</p>
+
+<p class="note">{{METHOD_NOTE}}</p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "name": "ad-angles-from-calls",
+  "description": "Mine recorded calls for the pain points buyers state in their own words, rank them by frequency x severity, and turn the top ones into static and video ad concepts with copy.",
+  "version": "1.0.0",
+  "author": { "name": "Aidan Branley" },
+  "keywords": ["ads", "creative", "messaging", "transcripts", "voice-of-customer"]
+}
