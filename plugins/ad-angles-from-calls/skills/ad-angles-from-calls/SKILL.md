@@ -267,11 +267,31 @@ Use `assets/report-template.html` exactly. Sections, in order:
    videos in the shapes above.
 5. **Language bank** — the buyer's raw phrases, verbatim, ungrouped. Copywriters
    raid this section more than any other, which is why it stays unedited.
-6. **Unevidenced hypotheses** — themes with no quote behind them, clearly marked
+6. **Anti-pains** — things the calls show are *not* a problem, with the quote
+   proving it. See below.
+7. **Unevidenced hypotheses** — themes with no quote behind them, clearly marked
    as not derived from the calls.
-7. **Method note** — how severity was scored, which sources were read, calendar
+8. **Method note** — how severity was scored, which sources were read, calendar
    coverage (`X of Y external calls had transcripts`), whose Drives were and
    weren't reachable, and a sample-size caveat if under `min_calls`.
+
+### Anti-pains
+
+Record every place the buyer says something is already handled, and quote it.
+These are as commercially useful as the pains and much rarer, because a buyer
+will volunteer a complaint unprompted but only names a working system when
+asked to consider replacing it.
+
+An anti-pain kills a whole family of ads before the spend. When someone says
+their scheduling and invoicing "works really well", a headline about scheduling
+doesn't merely underperform — it tells that reader the ad isn't for them, in the
+first three seconds, and the rest of the creative never gets seen. Agencies
+reliably discover this after the test rather than before, because nothing in a
+normal pain-mining pass has a place to put "he told us not to bother."
+
+Watch for the two forms: the flat dismissal ("that side works really well"),
+and the deferral ("months or years down the road"), which is the same signal
+said politely. Both belong in the section.
 
 ## Calibration
 
