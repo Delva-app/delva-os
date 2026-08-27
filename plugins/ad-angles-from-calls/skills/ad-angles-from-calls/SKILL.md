@@ -73,21 +73,9 @@ this order, and stop at the first source with real volume:
 1. **A dedicated meeting-recorder MCP** — Fathom, Gong, Grain, Fireflies, Otter,
    Read. With Fathom: `list_meetings` across the lookback window, then
    `get_meeting_transcript` per call. Best case — already speaker-labelled.
-2. **Google Meet's Gemini note taker, via the Google Drive MCP.** Gemini
-   transcripts are not a separate product with its own API; they are written
-   into the meeting organiser's Drive as ordinary Google Docs, which means the
-   Drive MCP reads them like any other doc. Search for all of these, since which
-   ones exist depends on whether the host turned on transcription, recording, or
-   notes:
-   - `title contains 'Transcript'` — the raw speaker-labelled transcript,
-     usually titled `<Meeting name> - <date> - Transcript`. This is the one you
-     want; the others are lossy.
-   - `title contains 'Notes by Gemini'` — Gemini's summary. Useful for finding
-     which calls exist, but **never quote from it** — it paraphrases, and a
-     paraphrase presented as a verbatim quote is exactly the failure this skill
-     exists to prevent.
-   - `parentId` of the `Meet Recordings` folder, and `sharedWithMe = true` for
-     folders shared by the subject.
+2. **Google Meet's Gemini note taker, via the Google Drive MCP.** See
+   *Finding Gemini transcripts* below — this is the most common source and the
+   easiest one to under-collect from.
 3. **A local folder** of transcripts (`.md`, `.txt`, `.vtt`, `.srt`, `.json`) —
    the project, `input/`, `transcripts/`, `calls/`, and anywhere the user's
    CLAUDE.md points for call material.
@@ -95,6 +83,61 @@ this order, and stop at the first source with real volume:
    "call", "intro", a person's name plus a date, Zoom/Meet auto-titles.
 5. **Only then ask** — concretely. "What do you record calls with?" gets a
    useful answer; "please provide transcripts" gets silence.
+
+### Finding Gemini transcripts
+
+Gemini's note taker has no API of its own. Google Meet writes its artifacts into
+the **meeting organiser's** Drive as ordinary Google Docs, so the Drive MCP
+reads them like any other document. Three artifacts may exist per call,
+depending on what the host switched on:
+
+| Doc | Typical title | Use it for |
+|---|---|---|
+| Transcript | `<Meeting> - <date> - Transcript` | **Quotes.** Speaker-labelled, verbatim. |
+| Gemini notes | `<Meeting> - <date> - Notes by Gemini` | Finding that a call happened. Never for quotes. |
+| Recording | `<Meeting> - <date>` (`.mp4`) | Last resort — needs transcribing first. |
+
+**Never quote from the Gemini notes doc.** It paraphrases in Gemini's voice, and
+a paraphrase presented as the buyer's own words is the exact failure this skill
+exists to prevent. If a call has notes but no transcript, treat that call as
+evidence a pain exists, and go find the quote elsewhere.
+
+Search in this order, because each step catches calls the previous one misses:
+
+1. **Locate the folder, then enumerate it.** Find `Meet Recordings` (older
+   Workspace tenants use `Meet Recordings`; some use `Meet transcripts`), take
+   its id, and list children with `parentId = '<id>'`. Enumerating the folder
+   beats title search, because a doc someone renamed still lives in the folder.
+2. **Title sweep**, to catch anything moved out of that folder:
+   `title contains 'Transcript' or title contains 'Notes by Gemini'`.
+3. **Full-text sweep**, to catch renamed *and* moved docs: Meet transcripts open
+   with a boilerplate attendee/date header, so `fullText contains 'Transcript'`
+   combined with a known client name surfaces strays.
+4. **Shared drives and other hosts** — see below.
+
+**The organiser trap, which is the whole ballgame for "every client call."** The
+transcript lands in the Drive of whoever *hosted* the call, not the company's.
+In an agency where different people run different accounts, one connected Google
+account sees only that person's calls, and the search will look like it
+succeeded — it returns real transcripts, just a fraction of them. So before
+analysing, always establish whose calls you're holding:
+
+- Check whether the artifacts live on a **shared drive** the whole team can see
+  (`sharedWithMe = true`, plus shared-drive folders). If they do, you likely have
+  everything.
+- If they're in one person's My Drive, ask directly: **who else at the company
+  hosts client calls?** Then get those accounts' recordings shared, or say
+  plainly in the report that coverage is limited to the hosts you could read.
+
+**Reconcile against the calendar.** If a Google Calendar MCP is connected, list
+past events across the lookback window that had a Meet link and external
+attendees, and diff that list against the transcripts you found. This is the
+only way to know what's *missing* rather than what's present, and it routinely
+surfaces two things worth reporting: calls where transcription was never turned
+on, and whole categories of call hosted by someone whose Drive you can't see.
+State the coverage number in the report's method note — "84 of 112 external
+calls had transcripts" is a materially different document from an unqualified
+ranking.
 
 ### When the transcripts exist but you can't reach them
 
@@ -226,8 +269,9 @@ Use `assets/report-template.html` exactly. Sections, in order:
    raid this section more than any other, which is why it stays unedited.
 6. **Unevidenced hypotheses** — themes with no quote behind them, clearly marked
    as not derived from the calls.
-7. **Method note** — how severity was scored, sample size caveat if under
-   `min_calls`.
+7. **Method note** — how severity was scored, which sources were read, calendar
+   coverage (`X of Y external calls had transcripts`), whose Drives were and
+   weren't reachable, and a sample-size caveat if under `min_calls`.
 
 ## Calibration
 
