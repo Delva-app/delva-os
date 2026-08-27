@@ -50,7 +50,7 @@ promoting it into the ranking.
 ```yaml
 subject:      Grow AI              # whose ads these are (a client name when run for a client)
 output_dir:   reports              # where the HTML report is written, relative to project root
-lookback:     12 months            # how far back to pull calls; "all" for everything
+lookback:     all                  # how far back to pull calls; default is every call ever recorded
 min_calls:    8                    # below this, say the sample is thin rather than ranking confidently
 top_pains:    6                    # how many pains get ad concepts built on them
 brand_color:  "#111111"            # accent colour of the report
@@ -70,23 +70,67 @@ Never open by asking the user to upload transcripts. Most businesses already
 have hundreds of calls recorded and don't think of them as an asset. Probe, in
 this order, and stop at the first source with real volume:
 
-1. **A meeting recorder MCP** — Fathom, Gong, Grain, Fireflies, Otter, Read.
-   Check what's connected. With Fathom: `list_meetings` over the lookback
-   window, then `get_meeting_transcript` per call. This is the best case —
-   transcripts are already speaker-labelled.
-2. **A local folder** of transcripts (`.md`, `.txt`, `.vtt`, `.srt`, `.json`) —
-   look in the project, in `input/`, `transcripts/`, `calls/`, and anywhere the
-   user's CLAUDE.md points for call material.
-3. **Google Drive / Notion** — search for docs whose titles look like calls
-   ("discovery", "call", "intro", a person's name plus a date, Zoom/Meet
-   auto-titles).
-4. **Only then ask.** And when you ask, ask concretely: "what do you record
-   calls with?" gets a useful answer; "please provide transcripts" gets silence.
+1. **A dedicated meeting-recorder MCP** — Fathom, Gong, Grain, Fireflies, Otter,
+   Read. With Fathom: `list_meetings` across the lookback window, then
+   `get_meeting_transcript` per call. Best case — already speaker-labelled.
+2. **Google Meet's Gemini note taker, via the Google Drive MCP.** Gemini
+   transcripts are not a separate product with its own API; they are written
+   into the meeting organiser's Drive as ordinary Google Docs, which means the
+   Drive MCP reads them like any other doc. Search for all of these, since which
+   ones exist depends on whether the host turned on transcription, recording, or
+   notes:
+   - `title contains 'Transcript'` — the raw speaker-labelled transcript,
+     usually titled `<Meeting name> - <date> - Transcript`. This is the one you
+     want; the others are lossy.
+   - `title contains 'Notes by Gemini'` — Gemini's summary. Useful for finding
+     which calls exist, but **never quote from it** — it paraphrases, and a
+     paraphrase presented as a verbatim quote is exactly the failure this skill
+     exists to prevent.
+   - `parentId` of the `Meet Recordings` folder, and `sharedWithMe = true` for
+     folders shared by the subject.
+3. **A local folder** of transcripts (`.md`, `.txt`, `.vtt`, `.srt`, `.json`) —
+   the project, `input/`, `transcripts/`, `calls/`, and anywhere the user's
+   CLAUDE.md points for call material.
+4. **Notion / other doc stores** — titles that look like calls: "discovery",
+   "call", "intro", a person's name plus a date, Zoom/Meet auto-titles.
+5. **Only then ask** — concretely. "What do you record calls with?" gets a
+   useful answer; "please provide transcripts" gets silence.
 
-Report what you found before analysing: how many calls, what date range, what
-types. If it's under `min_calls`, say so plainly and continue anyway — a thin
-sample produces a directional read, not a ranking, and the user needs to know
-which one they're holding.
+### When the transcripts exist but you can't reach them
+
+This is the common case, and it is not the same as having no transcripts. Meet
+and Gemini write to the **meeting organiser's** Drive, so if the subject's calls
+were hosted on their Workspace and this Claude is connected to a different
+Google account, every search above returns nothing while hundreds of transcripts
+sit one permission away. Don't report "no calls found" — report the access gap,
+and give them the two fixes:
+
+- **Share the folder.** Ask the subject to share their `Meet Recordings` folder
+  (and any transcript docs outside it) with the Google account this Claude is
+  connected to. Name that account explicitly in the ask.
+- **Connect their account.** Add the Google Drive connector under a Workspace
+  account that already has the recordings — cleanest when the skill is being run
+  by the subject on their own calls.
+
+If nothing is connected at all, say which connector to add before you go
+further, rather than falling back to whatever stray transcript happens to be on
+disk. One local file is a sample of one, and a ranking built on it is worse than
+no ranking, because it looks like data.
+
+### Then take all of them
+
+Default to **every client call available**, not a recent slice or a sample —
+that's why `lookback` defaults to `all`. Frequency is half the score, so a
+truncated corpus doesn't just give you less, it silently reweights the ranking
+toward whatever the last quarter happened to be about. If the volume is genuinely
+too large to read in one pass, process in batches and accumulate the tally
+across batches; never substitute a sample and present it as the whole.
+
+Report what you found before analysing: how many calls, date range, call types,
+and anything you know exists but couldn't read. If the count is under
+`min_calls`, say so plainly and continue anyway — a thin sample gives a
+directional read rather than a ranking, and the user needs to know which one
+they're holding.
 
 ### 2. Read for pain, not for summary
 
