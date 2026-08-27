@@ -60,7 +60,7 @@ These are the only installation-specific values. Anyone — Grow AI, or Grow AI
 running this for one of their own clients — drops this folder into their setup
 and changes these six lines instead of editing instructions, which is what keeps
 the skill portable. When the user names a client in the request, that overrides
-`subject` for the run; write the report to `output_dir/<subject>-ad-angles-<date>.html`.
+`subject` for the run; write the report to `output_dir/<subject>-ad-pain-ideas-<date>.html`.
 
 ## Workflow
 
